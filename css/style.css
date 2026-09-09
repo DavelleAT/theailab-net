@@ -100,9 +100,77 @@ a {
   text-decoration: underline;
   text-decoration-thickness: 2px;
   text-underline-offset: 2px;
+  transition: color 0.15s ease, opacity 0.15s ease;
 }
 a:hover {
   color: var(--accent-dk);
+  opacity: 0.85;
+}
+a:active {
+  scale: 0.98;
+  transition: scale 0.1s ease;
+}
+
+/* Badge/badge system for mini-projects */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-family: var(--fb);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.badge-mp1 {
+  background: var(--mp1);
+  color: #fff;
+  opacity: 0.9;
+}
+.badge-mp2 {
+  background: var(--mp2);
+  color: #fff;
+  opacity: 0.9;
+}
+.badge-mp3 {
+  background: var(--mp3);
+  color: #fff;
+  opacity: 0.9;
+}
+.badge-mp4 {
+  background: var(--mp4);
+  color: #fff;
+  opacity: 0.9;
+}
+.badge-final {
+  background: var(--final);
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* Enhanced card styling */
+.map-card, .news-card, .here-card, .table-wrap {
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  transition: all 0.2s ease;
+}
+.map-card:hover, .news-card:hover, .here-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(63, 155, 142, 0.1);
+}
+
+/* Visual dividers/section breaks */
+.section-divider {
+  height: 2px;
+  background: var(--accent);
+  margin: 3rem 0;
+  opacity: 0.4;
+}
+.section-divider-lg {
+  height: 3px;
+  background: var(--accent);
+  margin: 4rem 0;
+  opacity: 0.5;
 }
 
 img {
