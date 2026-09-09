@@ -15,6 +15,7 @@
   /* Blocks that rise into view. Order is irrelevant; the stagger is computed
      per parent below, so siblings cascade and unrelated regions do not. */
   var SELECTORS = [
+    ".hero h1",
     ".home-lead",
     ".arc-band",
     ".arc-list li",
@@ -108,16 +109,6 @@
     for (var i = 0; i < bars.length; i++) io.observe(bars[i]);
   }
 
-  function heroIn() {
-    var h1 = document.querySelector(".hero h1");
-    if (!h1) return;
-    requestAnimationFrame(function () {
-      requestAnimationFrame(function () {
-        h1.classList.add("is-visible");
-      });
-    });
-  }
-
   /* Header gains its border and blur once the page has moved at all. Reads
      through rAF so a fast scroll does not queue a class write per event. */
   function stickyHeader() {
@@ -144,7 +135,6 @@
       tag();
       observeReveals();
       observeBars();
-      heroIn();
       stickyHeader();
     } catch (e) {
       /* Never leave content stranded at opacity 0 because the motion layer
