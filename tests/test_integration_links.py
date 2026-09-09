@@ -45,10 +45,14 @@ class TestAllInternalLinks:
 
 
 class TestNavConsistency:
-    def test_all_nav_pages_have_identical_nav_labels(self, site_root, nav_pages):
-        """Every page (except 404.html) must have the exact same set of nav link labels."""
+    # 404.html is excluded from reachability checks because nothing links to it,
+    # but it renders the same masthead as every other page, so its nav must
+    # match. Running these two on nav_pages instead let 404.html sit missing a
+    # nav item that every other page had.
+    def test_all_nav_pages_have_identical_nav_labels(self, all_html_files):
+        """Every page, 404.html included, must have the same set of nav link labels."""
         failures = []
-        for f in nav_pages:
+        for f in all_html_files:
             soup = BeautifulSoup(f.read_text(encoding="utf-8"), "lxml")
             nav = soup.select_one("nav.main-nav")
             if not nav:
@@ -59,10 +63,10 @@ class TestNavConsistency:
                 failures.append(f"{_rel(f)}: {sorted(labels)}")
         assert not failures, f"Pages with inconsistent nav labels: {failures[:15]}"
 
-    def test_nav_links_resolve(self, site_root, nav_pages):
-        """Nav links on every non-404 page must resolve to existing files."""
+    def test_nav_links_resolve(self, all_html_files):
+        """Nav links on every page, 404.html included, must resolve to existing files."""
         broken = []
-        for f in nav_pages:
+        for f in all_html_files:
             soup = BeautifulSoup(f.read_text(encoding="utf-8"), "lxml")
             nav = soup.select_one("nav.main-nav")
             if not nav:
