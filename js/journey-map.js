@@ -1,52 +1,43 @@
-// "You are here" indicator for the homepage's 15-week journey map.
-// Scoped to index.html only — the map only exists there. Uses the shared
-// window.CourseCalendar (js/course-calendar.js) for date logic; the
-// "This Week" rail card that used to be populated from here is now handled
-// sitewide by js/this-week-card.js. See
-// docs/design-spec_phase3_website-revision_v1_20260903.md (Part 2.3-2.4).
+// "You are here" marker for the homepage course arc.
+//
+// Scoped to index.html, the only page carrying the arc. Week and break dates
+// come from the shared window.CourseCalendar (js/course-calendar.js) so this
+// file holds no calendar data of its own. The "This Week" rail card that used
+// to be populated from here is handled sitewide by js/this-week-card.js.
+//
+// Phase 4 (2026-09-09): the arc is a week index rather than the original SVG
+// dot path, so marking the current week is a class and a label on one row
+// instead of positioning a circle in SVG coordinate space.
 
 (function () {
-  function nodeCenter(node) {
-    return node.tagName === "rect"
-      ? {
-          x: parseFloat(node.getAttribute("x")) + parseFloat(node.getAttribute("width")) / 2,
-          y: parseFloat(node.getAttribute("y")) + parseFloat(node.getAttribute("height")) / 2
-        }
-      : { x: parseFloat(node.getAttribute("cx")), y: parseFloat(node.getAttribute("cy")) };
+  function mark(row, text) {
+    row.classList.add("is-current");
+    var tag = document.createElement("span");
+    tag.className = "arc-here";
+    tag.textContent = text;
+    // Ahead of the phase tag, so the row reads number, title, marker, phase.
+    row.insertBefore(tag, row.querySelector(".arc-phase"));
   }
 
   function init() {
-    var svg = document.getElementById("journey-map");
-    var marker = document.getElementById("here-marker");
+    var arc = document.getElementById("journey-map");
     var CC = window.CourseCalendar;
-    if (!svg || !marker || !CC) return;
+    if (!arc || !CC) return;
 
     var todayStr = CC.today();
     var wk = CC.currentWeekNumber(todayStr);
     if (!wk) return; // semester hasn't started yet
 
+    // During a recess there is no current week to stand in, so the marker
+    // points at the week the course resumes on instead.
     var brk = CC.activeBreak(todayStr);
-    marker.style.display = "";
+    var target = brk ? (wk + 1 <= 15 ? wk + 1 : null) : wk;
+    if (!target) return;
 
-    if (brk) {
-      var nextWk = wk + 1 <= 15 ? wk + 1 : null;
-      if (nextWk) {
-        var nextNode = svg.querySelector('[data-week="' + nextWk + '"]');
-        var c = nodeCenter(nextNode);
-        marker.innerHTML =
-          '<circle class="here-ring next" cx="' + c.x + '" cy="' + c.y + '" r="13"></circle>';
-      }
-    } else {
-      var node = svg.querySelector('[data-week="' + wk + '"]');
-      if (!node) return;
-      var center = nodeCenter(node);
-      var isEthicsWeek = CC.ETHICS_WEEKS.indexOf(wk) !== -1;
-      var labelY = isEthicsWeek ? center.y + 34 : center.y - 24;
-      marker.innerHTML =
-        '<circle class="here-ring" cx="' + center.x + '" cy="' + center.y + '" r="13"></circle>' +
-        '<text fill="var(--accent)" font-family="Quicksand" font-size="11" font-weight="700" ' +
-        'x="' + center.x + '" y="' + labelY + '" text-anchor="middle">You are here</text>';
-    }
+    var row = arc.querySelector('.arc-week[data-week="' + target + '"]');
+    if (!row) return;
+
+    mark(row, brk ? "Next up" : "You are here");
   }
 
   if (document.readyState === "loading") {

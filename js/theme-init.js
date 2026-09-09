@@ -61,6 +61,21 @@
 
   apply(resolve());
 
+  /* Scroll-reveal gate (Phase 4). Set here rather than in js/motion.js because
+     motion.js runs at the end of <body>: by then the page has painted, so
+     adding the class there would show every block and then hide it again to
+     animate in. Gating on IntersectionObserver support and the reduced-motion
+     preference means the class is only ever present when the reveals can
+     actually run — otherwise the CSS leaves everything in its final state. */
+  try {
+    if (window.IntersectionObserver &&
+        !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      document.documentElement.classList.add("js-motion");
+    }
+  } catch (e) {
+    /* no matchMedia — skip reveals, content renders unanimated */
+  }
+
   window.__theme = {
     load: load,
     save: save,

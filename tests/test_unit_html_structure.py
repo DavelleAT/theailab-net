@@ -229,18 +229,18 @@ class TestThemeToggle:
                 failures.append(f"{_rel(path)}: theme-init.js does not precede style.css link")
         assert not failures, f"theme-init.js ordering issues: {failures[:15]}"
 
-    def test_all_pages_load_nav_wave_js(self, parsed_pages):
-        """nav-wave.js (dock-style nav magnification) must be present and resolvable on every page."""
+    def test_all_pages_load_motion_js(self, parsed_pages):
+        """motion.js (scroll reveals, sticky header) must be present and resolvable on every page."""
         failures = []
         for path, _, soup in parsed_pages:
-            script = soup.find("script", src=lambda s: s and s.endswith("js/nav-wave.js"))
+            script = soup.find("script", src=lambda s: s and s.endswith("js/motion.js"))
             if not script:
-                failures.append(f"{_rel(path)}: missing js/nav-wave.js")
+                failures.append(f"{_rel(path)}: missing js/motion.js")
                 continue
             target = (path.parent / script["src"]).resolve()
             if not target.exists():
-                failures.append(f"{_rel(path)}: nav-wave.js src '{script['src']}' does not resolve")
-        assert not failures, f"nav-wave.js issues: {failures[:15]}"
+                failures.append(f"{_rel(path)}: motion.js src '{script['src']}' does not resolve")
+        assert not failures, f"motion.js issues: {failures[:15]}"
 
     def test_all_pages_load_theme_js(self, parsed_pages):
         """theme.js (button wiring) must be present and resolvable on every page."""
@@ -314,25 +314,20 @@ class TestWidgetRail:
                     failures.append(f"{_rel(path)}: #{card_id} not hidden by default")
         assert not failures, f"Interior page rail issues: {failures[:15]}"
 
-    def test_bg_flourish_is_homepage_only(self, parsed_pages):
-        """The decorative canvas background must exist only on index.html, resolvable, not elsewhere."""
+    def test_bg_flourish_is_absent_sitewide(self, parsed_pages):
+        """The decorative canvas background was retired; no page may reintroduce it.
+
+        It was removed because its rays rendered a visible hard edge at the
+        canvas boundary that resisted fixing. Kept as a regression guard rather
+        than deleted so the canvas does not quietly come back.
+        """
         failures = []
         for path, _, soup in parsed_pages:
-            canvas = soup.select_one("#bg-flourish")
-            script = soup.find("script", src=lambda s: s and s.endswith("js/hero-flourish.js"))
-            if path.name == "index.html":
-                if not canvas:
-                    failures.append(f"{_rel(path)}: missing #bg-flourish canvas")
-                if not script:
-                    failures.append(f"{_rel(path)}: missing js/hero-flourish.js")
-                elif not (path.parent / script["src"]).resolve().exists():
-                    failures.append(f"{_rel(path)}: hero-flourish.js src does not resolve")
-            else:
-                if canvas:
-                    failures.append(f"{_rel(path)}: unexpected #bg-flourish canvas")
-                if script:
-                    failures.append(f"{_rel(path)}: unexpected js/hero-flourish.js")
-        assert not failures, f"bg-flourish scope issues: {failures[:15]}"
+            if soup.select_one("#bg-flourish"):
+                failures.append(f"{_rel(path)}: unexpected #bg-flourish canvas")
+            if soup.find("script", src=lambda s: s and s.endswith("js/hero-flourish.js")):
+                failures.append(f"{_rel(path)}: unexpected js/hero-flourish.js")
+        assert not failures, f"bg-flourish should be gone: {failures[:15]}"
 
     def test_all_pages_load_course_calendar_and_this_week_card_js(self, parsed_pages):
         """course-calendar.js and this-week-card.js must be present and resolvable on every page."""

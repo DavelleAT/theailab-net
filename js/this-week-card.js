@@ -17,7 +17,7 @@
         '<div class="here-title">' + opts.breakName + "</div>" +
         (opts.nextWeek
           ? '<a class="here-link" href="' + opts.prefix + 'weeks/week-' +
-            String(opts.nextWeek).padStart(2, "0") + '.html">Go to Week ' + opts.nextWeek + " &rarr;</a>"
+            String(opts.nextWeek).padStart(2, "0") + '.html">Go to Week ' + opts.nextWeek + "</a>"
           : "");
     } else {
       var pct = Math.round((opts.week / 15) * 100);
@@ -26,7 +26,7 @@
         '<div class="here-title">' + opts.title + "</div>" +
         '<div class="here-bar"><div class="here-bar-fill" style="width:' + pct + '%"></div></div>' +
         '<a class="here-link" href="' + opts.prefix + 'weeks/week-' +
-        String(opts.week).padStart(2, "0") + '.html">Go to this week &rarr;</a>';
+        String(opts.week).padStart(2, "0") + '.html">Go to this week</a>';
     }
   }
 
