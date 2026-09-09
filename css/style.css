@@ -15,12 +15,12 @@
 }
 
 :root {
-  --bg: #faf7f2;
+  --bg: #faf8f3;
   --surface: #ffffff;
-  --text: #2a2622;
+  --text: #1a1a1a;
   --text-lt: #8a8378;
-  --accent: #c2703f;
-  --accent-dk: #a25a30;
+  --accent: #3f9b8e;
+  --accent-dk: #2d7a6a;
   --border: #e8e2d8;
   --code-bg: #f3ede3;
   --mp1: #c3a89f;   /* MP1 - Dev Environment: dusty rose */
@@ -49,14 +49,14 @@
    <html>, set by the inline script in each page's <head> before paint — see
    js/theme.js for the toggle/lock/auto-expiry logic. */
 [data-theme="dark"] {
-  --bg: #1f1a15;
-  --surface: #241f19;
-  --text: #ddd0bd;
-  --text-lt: #8f8272;
-  --accent: #e2853f;
-  --accent-dk: #b8672f;
-  --border: #423a2e;
-  --code-bg: #2b251d;
+  --bg: #0f1515;
+  --surface: #1a2020;
+  --text: #e8e8e8;
+  --text-lt: #a8a8a8;
+  --accent: #5db5a3;
+  --accent-dk: #3f9b8e;
+  --border: #2a3535;
+  --code-bg: #1a2525;
   --mp1: #e2a89a;
   --mp2: #a3c78c;
   --mp3: #dcb567;
@@ -86,10 +86,8 @@ body {
   background: var(--bg);
 }
 
-/* Homepage-only decorative background flourish (P3-5). The canvas paints
-   the page's visible backdrop, so the homepage body is transparent here —
-   every other page keeps the normal var(--bg) fill. */
-body.has-bg-flourish { background: transparent; overscroll-behavior-y: none; }
+/* Background styling */
+body { background: var(--bg); }
 .bg-flourish {
   position: fixed;
   inset: 0;
@@ -548,6 +546,15 @@ body.has-bg-flourish .here-card {
   line-height: 1.42;
   margin: 0 0 1.1rem;
   color: var(--text);
+}
+.news-headline a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 2px;
+}
+.news-headline a:hover {
+  color: var(--accent-dk);
 }
 .news-source {
   font-family: var(--fb);

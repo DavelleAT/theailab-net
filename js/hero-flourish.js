@@ -12,19 +12,19 @@
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   var LIGHT_PALETTE = [
-    [194, 112, 63], [195, 168, 159], [163, 172, 147],
-    [196, 171, 119], [164, 156, 176], [155, 176, 181]
+    [63, 155, 142], [95, 168, 158], [110, 145, 155],
+    [75, 180, 165], [120, 160, 170], [85, 175, 160]
   ];
   var DARK_PALETTE = [
-    [226, 133, 63], [226, 168, 154], [163, 199, 140],
-    [220, 181, 103], [182, 163, 217], [126, 195, 199]
+    [93, 181, 163], [108, 200, 185], [140, 190, 175],
+    [115, 210, 190], [160, 195, 185], [125, 215, 200]
   ];
 
   var W, H, DPR;
   function resize() {
     DPR = window.devicePixelRatio || 1;
     W = window.innerWidth;
-    H = window.innerHeight;
+    H = window.innerHeight * 1.5;
     canvas.width = W * DPR;
     canvas.height = H * DPR;
     canvas.style.width = W + "px";
@@ -48,8 +48,8 @@
     });
   }
 
-  var BG_LIGHT = "#faf7f2";
-  var BG_DARK = "#1f1a15";
+  var BG_LIGHT = "#faf8f3";
+  var BG_DARK = "#0f1515";
 
   function isDark() {
     return document.documentElement.getAttribute("data-theme") === "dark";

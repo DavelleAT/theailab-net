@@ -80,21 +80,49 @@
       .then(function (data) { return pickTopStories(data.hits || []); });
   }
 
-  function cardHTML(story) {
-    return (
-      '<div class="news-label">Today in AI</div>' +
-      '<p class="news-headline">“' + story.title + '”</p>' +
-      '<p class="news-source">via Hacker News</p>' +
-      '<p class="news-caption">The field doesn’t pause for a syllabus — here’s today’s version of it, next to where you are in the course.</p>'
-    );
+  function cardHTML(stories) {
+    if (!stories || !stories.length) return '';
+    var container = document.createElement('div');
+
+    var label = document.createElement('div');
+    label.className = 'news-label';
+    label.textContent = 'Today in AI';
+    container.appendChild(label);
+
+    for (var i = 0; i < Math.min(stories.length, 3); i++) {
+      var s = stories[i];
+      var p = document.createElement('p');
+      p.className = 'news-headline';
+
+      var a = document.createElement('a');
+      a.href = s.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.textContent = '"' + s.title + '"';
+
+      p.appendChild(a);
+      container.appendChild(p);
+    }
+
+    var source = document.createElement('p');
+    source.className = 'news-source';
+    source.textContent = 'via Hacker News';
+    container.appendChild(source);
+
+    var caption = document.createElement('p');
+    caption.className = 'news-caption';
+    caption.textContent = "The field doesn't pause for a syllabus — here's today's version of it, next to where you are in the course.";
+    container.appendChild(caption);
+
+    return container;
   }
 
   function render(stories) {
     if (!stories || !stories.length) return;
     var card = document.getElementById("today-in-ai-card");
     if (!card) return;
-    var story = stories[Math.floor(Math.random() * stories.length)];
-    card.innerHTML = cardHTML(story);
+    var content = cardHTML(stories);
+    card.innerHTML = content.innerHTML;
     card.hidden = false;
   }
 
