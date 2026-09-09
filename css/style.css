@@ -173,6 +173,97 @@ a:active {
   opacity: 0.5;
 }
 
+/* Week page structure */
+.week-progress {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  font-family: var(--fb);
+}
+.week-progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.week-progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+/* Content section blocks */
+.content-section {
+  margin: 2.5rem 0;
+  border-left: 4px solid var(--border);
+  padding-left: 1.5rem;
+  transition: all 0.2s ease;
+}
+.content-section h3 {
+  margin-top: 0;
+  font-size: 1.25em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Color-coded sections by type */
+.section-goals {
+  border-left-color: var(--accent);
+}
+.section-assignments {
+  border-left-color: var(--mp3);
+}
+.section-readings {
+  border-left-color: var(--mp2);
+}
+.section-deliverables {
+  border-left-color: var(--mp4);
+}
+
+/* Navigation cards */
+.week-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+.week-nav-card {
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s ease;
+  display: block;
+}
+.week-nav-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 8px 24px rgba(63, 155, 142, 0.08);
+  transform: translateY(-2px);
+}
+.week-nav-label {
+  font-family: var(--fb);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-lt);
+  margin-bottom: 0.5rem;
+}
+.week-nav-title {
+  font-family: var(--fdisplay);
+  font-size: 1.15em;
+  font-weight: 600;
+}
+
 img {
   max-width: 100%;
   height: auto;
