@@ -2,6 +2,7 @@
 
 **Davelle Ampofo-Twumasi** · 9 September 2026
 
+**Live site:** https://davelleat.github.io/theailab-net/
 **Repository:** https://github.com/DavelleAT/theailab-net
 
 ---
