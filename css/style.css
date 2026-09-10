@@ -23,7 +23,7 @@
      The original teal (#3f9b8e) and grey (#8a8378) measured 3.15:1 and 3.51:1,
      so every body link and every mono micro-label failed for small text. These
      hold the same hue and saturation with the lightness pulled down until they
-     clear the floor. Dark mode was already well past it and is unchanged. */
+     clear the floor. Dark mode was already well past it and is unchanged.
      Solved against the accent wash rather than the plain background: the
      highlighted current-week row tints its background, which is the worst case
      and the one place these colours are most likely to be read. */
@@ -932,17 +932,6 @@ h1, h2, h3, h4, h5, h6 {
   text-transform: uppercase;
   color: var(--accent);
   margin-bottom: 0.9rem;
-}
-/* Names the week subject the headlines were selected for, so the card explains
-   why these stories and not others. Only rendered when the topic query actually
-   returned something. */
-.news-topic {
-  font-family: var(--fmono);
-  font-size: 10px;
-  letter-spacing: 0.06em;
-  line-height: 1.5;
-  color: var(--text-lt);
-  margin: -0.5rem 0 1rem;
 }
 .news-headline {
   font-family: var(--fdisplay);

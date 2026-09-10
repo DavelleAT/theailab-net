@@ -2,34 +2,43 @@
 // widget (never course content, never authoritative). See
 // docs/design-spec_phase3_website-revision_v1_20260903.md Part 3.
 //
-// Headlines are chosen for the week the reader is on: on a week page, that
-// week; anywhere else, whichever week the semester is currently in. The per-week
-// search terms live in js/course-calendar.js as WEEK_TOPICS.
+// The card shows what the field is actually talking about: frontier model
+// releases, research, and the arguments around them. An earlier version
+// searched per-week course topics ("MCP servers", "Codex CLI"), which sounded
+// better than it read. Those terms live on Hacker News mostly in "Show HN"
+// posts, so the card filled up with links to individual side-project repos
+// rather than news. The filters below exist to keep that from coming back:
 //
-// Two queries back the card. The topic query looks across the last month, since
-// news about, say, the Model Context Protocol does not appear daily. The general
-// query is the original behaviour, today's top AI stories, and fills the card
-// whenever the topic turns up less than a full set. So the card is topical when
-// it can be and still current when it cannot.
+//   - Show HN, Launch HN, Ask HN and Tell HN titles are dropped outright
+//   - so are links straight to a code host, which are projects, not stories
+//   - a points floor keeps what is left to stories the site actually engaged
+//     with, rather than anything posted that happened to match a keyword
 //
 // Data source is the public, keyless HN Algolia Search API. Results are cached
-// in localStorage per week and per six-hour window, so the card turns over about
-// four times a day without re-fetching on every page view. If the fetch fails,
-// or nothing clears the relevance filter, the card does not render at all. It is
-// supplementary, so failing invisibly is correct.
+// in localStorage per six-hour window, so the card turns over about four times
+// a day without re-fetching on every page view. If the fetch fails, or nothing
+// clears the filters, the card does not render at all. It is supplementary, so
+// failing invisibly is correct.
 
 (function () {
-  var CACHE_PREFIX = "today-in-ai:v2:";
+  var CACHE_PREFIX = "today-in-ai:v3:";
   // How often the card turns over. Also the cache lifetime, since a new window
-  // means a new key and the old entry is simply never read again.
+  // means a new key and the old entry is never read again.
   var ROTATION_MS = 6 * 60 * 60 * 1000;
   var SHOW_COUNT = 3;
-  var POOL_SIZE = 8;
-  var TOPIC_WINDOW_DAYS = 30;
+
+  // Tried in order, first one that fills the card wins. Recent and well-read
+  // is the goal; the later entries trade freshness for having enough to show
+  // during a quiet week.
+  var STRATEGIES = [
+    { days: 7, minPoints: 50 },
+    { days: 14, minPoints: 50 },
+    { days: 30, minPoints: 20 }
+  ];
 
   var KEYWORDS = [
-    "ai", "llm", "gpt", "openai", "anthropic", "claude", "gemini",
-    "machine learning", "neural", "agent"
+    "ai", "llm", "gpt", "openai", "anthropic", "claude", "gemini", "deepseek",
+    "machine learning", "neural", "transformer", "agent", "model", "chatbot"
   ];
 
   var KEYWORD_PATTERNS = KEYWORDS.map(function (kw) {
@@ -39,147 +48,74 @@
     return new RegExp("\\b" + kw.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
   });
 
-  function isRelevant(title) {
-    return KEYWORD_PATTERNS.some(function (re) { return re.test(title); });
+  var SELF_POST = /^\s*(show|launch|ask|tell)\s+hn\b/i;
+  var CODE_HOST = /^https?:\/\/(www\.)?(github\.com|gitlab\.com|bitbucket\.org|codeberg\.org)/i;
+
+  function isNews(hit, minPoints) {
+    if (!hit.title || !hit.url) return false;
+    if ((hit.points || 0) < minPoints) return false;
+    if (SELF_POST.test(hit.title)) return false;
+    if (CODE_HOST.test(hit.url)) return false;
+    return KEYWORD_PATTERNS.some(function (re) { return re.test(hit.title); });
   }
 
-  /* ---- which week are we speaking to ---- */
-
-  // A week page names its own week in the filename. Everywhere else follows the
-  // calendar, which is also what the "This Week" card does, so the two agree.
-  function activeWeek() {
-    var fromPath = window.location.pathname.match(/week-(\d{2})\.html$/);
-    if (fromPath) return parseInt(fromPath[1], 10);
-    var CC = window.CourseCalendar;
-    return CC ? CC.currentWeekNumber(CC.today()) : null;
-  }
-
-  function topicFor(week) {
-    var CC = window.CourseCalendar;
-    if (!week || !CC || !CC.weekTopic) return "";
-    return CC.weekTopic(week);
-  }
-
-  /* ---- fetching ---- */
-
-  function search(params) {
-    var url = "https://hn.algolia.com/api/v1/search?tags=story&hitsPerPage=100&" + params;
-    return fetch(url).then(function (res) {
-      if (!res.ok) throw new Error("HN API error " + res.status);
-      return res.json();
-    });
-  }
-
-  // Words worth matching a headline against, from a topic like "Claude Code CLI".
-  // Two-letter words are dropped as noise, except that nothing in the topics is
-  // that short except "AI", which the generic keyword list already covers.
-  function topicPatterns(topic) {
-    return topic
-      .split(/\s+/)
-      .filter(function (w) { return w.length >= 3; })
-      .map(function (w) {
-        return new RegExp("\\b" + w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "\\b", "i");
+  function fetchStories(strategy) {
+    var since = Math.floor((Date.now() - strategy.days * 86400000) / 1000);
+    var url = "https://hn.algolia.com/api/v1/search?tags=story&hitsPerPage=100" +
+      "&numericFilters=created_at_i%3E" + since;
+    return fetch(url)
+      .then(function (res) {
+        if (!res.ok) throw new Error("HN API error " + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var hits = (data.hits || []).filter(function (h) {
+          return isNews(h, strategy.minPoints);
+        });
+        // Most-discussed first. The relevance ordering the API returns by
+        // default is for text queries; there is no query here.
+        hits.sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
+        return hits.slice(0, SHOW_COUNT).map(function (h) {
+          return { title: h.title, url: h.url, points: h.points || 0 };
+        });
       });
   }
 
-  function matchesAny(patterns, title) {
-    return patterns.some(function (re) { return re.test(title); });
-  }
-
-  function toStories(hits, accept, keepApiOrder) {
-    var candidates = hits.filter(function (h) {
-      return h.title && h.url && accept(h.title);
-    });
-    // Topic results keep the API's relevance order. Re-sorting them by points
-    // was surfacing high-scoring stories that barely matched the query at all
-    // ("Risklytics – Insurance brokerage") over genuine matches with fewer
-    // points. Relevance is the whole reason for running a topic query.
-    if (!keepApiOrder) {
-      candidates.sort(function (a, b) { return (b.points || 0) - (a.points || 0); });
-    }
-    return candidates.slice(0, POOL_SIZE).map(function (h) {
-      return { title: h.title, url: h.url, points: h.points || 0 };
-    });
-  }
-
-  function fetchTopic(topic) {
-    if (!topic) return Promise.resolve([]);
-    var since = Math.floor((Date.now() - TOPIC_WINDOW_DAYS * 86400000) / 1000);
-    var patterns = topicPatterns(topic);
-    return search(
-      "query=" + encodeURIComponent(topic) +
-      "&numericFilters=created_at_i%3E" + since
-    ).then(function (data) {
-      // The headline itself has to carry a word from the topic. Algolia ranks
-      // loose matches into the results too, and the generic AI keyword list
-      // cannot stand in here: it would drop a squarely on-topic headline like
-      // "Mcploitable, the Metasploitable of the Model Context Protocol", which
-      // names no AI term at all.
-      return toStories(data.hits || [], function (title) {
-        return matchesAny(patterns, title);
-      }, true);
-    });
-  }
-
-  function fetchGeneral() {
-    var todayStart = Math.floor(new Date().setHours(0, 0, 0, 0) / 1000);
-    // The relevance-sorted "search" endpoint is used deliberately instead of
-    // "search_by_date": an earlier version used the chronological one and, with
-    // a modest hitsPerPage, only ever sampled stories posted in the last few
-    // minutes (near-zero points), never the day's actual top stories.
-    return search("numericFilters=created_at_i%3E" + todayStart).then(function (data) {
-      return toStories(data.hits || [], isRelevant, false);
-    });
-  }
-
-  function dedupe(stories) {
-    var seen = {};
-    return stories.filter(function (s) {
-      if (seen[s.url]) return false;
-      seen[s.url] = true;
-      return true;
-    });
-  }
-
-  // Topic stories first, then today's general AI stories to fill any shortfall.
-  function fetchStories(topic) {
-    return fetchTopic(topic).then(function (topical) {
-      var count = topical.length;
-      if (count >= SHOW_COUNT) {
-        return { stories: topical, topical: count };
-      }
-      return fetchGeneral().then(function (general) {
-        return {
-          stories: dedupe(topical.concat(general)),
-          topical: count
-        };
+  // Walk the strategies until one returns a full card.
+  function fetchBest(index) {
+    index = index || 0;
+    if (index >= STRATEGIES.length) return Promise.resolve([]);
+    return fetchStories(STRATEGIES[index]).then(function (stories) {
+      if (stories.length >= SHOW_COUNT) return stories;
+      return fetchBest(index + 1).then(function (next) {
+        return next.length > stories.length ? next : stories;
       });
     });
   }
 
   /* ---- cache ---- */
 
-  function cacheKey(week) {
-    return CACHE_PREFIX + (week || "none") + ":" + Math.floor(Date.now() / ROTATION_MS);
+  function cacheKey() {
+    return CACHE_PREFIX + Math.floor(Date.now() / ROTATION_MS);
   }
 
-  function loadCache(week) {
+  function loadCache() {
     try {
-      var raw = localStorage.getItem(cacheKey(week));
+      var raw = localStorage.getItem(cacheKey());
       if (!raw) return null;
-      var parsed = JSON.parse(raw);
-      return parsed && parsed.stories && parsed.stories.length ? parsed : null;
+      var stories = JSON.parse(raw);
+      return stories && stories.length ? stories : null;
     } catch (e) {
       return null;
     }
   }
 
-  function saveCache(week, payload) {
+  function saveCache(stories) {
     try {
-      localStorage.setItem(cacheKey(week), JSON.stringify(payload));
+      var current = cacheKey();
+      localStorage.setItem(current, JSON.stringify(stories));
       // Rotating the key leaves the previous window's entry behind, so clear
-      // out anything belonging to an older window on the way past.
-      var current = cacheKey(week);
+      // anything from an older window on the way past.
       for (var i = localStorage.length - 1; i >= 0; i--) {
         var key = localStorage.key(i);
         if (key && key.indexOf(CACHE_PREFIX) === 0 && key !== current) {
@@ -193,7 +129,7 @@
 
   /* ---- rendering ---- */
 
-  function cardContent(payload, week, topic) {
+  function cardContent(stories) {
     var container = document.createElement("div");
 
     var label = document.createElement("div");
@@ -201,23 +137,14 @@
     label.textContent = "Today in AI";
     container.appendChild(label);
 
-    // Only claim a topic when the topic query actually supplied something,
-    // otherwise the card would credit a subject it is not showing.
-    if (topic && payload.topical > 0) {
-      var topicLine = document.createElement("div");
-      topicLine.className = "news-topic";
-      topicLine.textContent = "Week " + week + " · " + topic;
-      container.appendChild(topicLine);
-    }
-
-    for (var i = 0; i < Math.min(payload.stories.length, SHOW_COUNT); i++) {
+    for (var i = 0; i < stories.length; i++) {
       var p = document.createElement("p");
       p.className = "news-headline";
       var a = document.createElement("a");
-      a.href = payload.stories[i].url;
+      a.href = stories[i].url;
       a.target = "_blank";
       a.rel = "noopener noreferrer";
-      a.textContent = "“" + payload.stories[i].title + "”";
+      a.textContent = "“" + stories[i].title + "”";
       p.appendChild(a);
       container.appendChild(p);
     }
@@ -236,32 +163,29 @@
     return container;
   }
 
-  function render(payload, week, topic) {
-    if (!payload || !payload.stories || !payload.stories.length) return;
+  function render(stories) {
+    if (!stories || !stories.length) return;
     var card = document.getElementById("today-in-ai-card");
     if (!card) return;
     card.innerHTML = "";
-    card.appendChild(cardContent(payload, week, topic));
+    card.appendChild(cardContent(stories));
     card.hidden = false;
   }
 
   function init() {
     if (!document.getElementById("today-in-ai-card")) return;
 
-    var week = activeWeek();
-    var topic = topicFor(week);
-
-    var cached = loadCache(week);
+    var cached = loadCache();
     if (cached) {
-      render(cached, week, topic);
+      render(cached);
       return;
     }
 
-    fetchStories(topic)
-      .then(function (payload) {
-        if (!payload.stories.length) return;
-        saveCache(week, payload);
-        render(payload, week, topic);
+    fetchBest()
+      .then(function (stories) {
+        if (!stories.length) return;
+        saveCache(stories);
+        render(stories);
       })
       .catch(function () {
         /* offline, API down, etc. — no card, no error surfaced */
