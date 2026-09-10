@@ -1,0 +1,135 @@
+ ▐▛███▛█   Claude Code v2.1.257
+▝▜██████▀  Sonnet 5 · Claude Max
+  ▝▝ ▝▝    ~/code/theailab-net
+
+  Fable 5.1 writes better code and reports progress on long tasks. Switch anytime with /model.
+
+❯ 1. analyze this website code base and critique it for errors, omissions,      
+  missing best practices, etc. Save your results in a complete, clear, and      
+  well-structured report in docs/report_web-revision_v1_20260901.md             
+
+⏺ I'll start by exploring the codebase structure to understand what I'm working
+  with.
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+⏺ That pulled in a .venv I should exclude. Let me get a cleaner view of the
+  actual project.
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+⏺ This is a static site (a course website, IPHS 400) — plain HTML/CSS with a
+  Python pytest test suite and Netlify deploy. Let me read through the key
+  files.
+
+  Read 6 files (ctrl+o to expand)
+
+⏺ Interesting — the netlify.toml has a global redirect rule that sends
+  everything to 404. Let me check the core/ pages, a couple of weeks/ pages, and
+  the test suite before drawing conclusions.
+
+  Read 5 files (ctrl+o to expand)
+
+⏺ Note the inconsistency: assignments.html, policies.html, and about.html use
+  relative nav links without ../ prefix (syllabus.html) while syllabus.html and
+  schedule.html use ../core/syllabus.html. Both resolve correctly since they're
+  all in core/, but it's inconsistent style. Let me check a couple of week pages
+  and the test suite.
+
+  Read 2 files (ctrl+o to expand)
+
+⏺ Now let me check the test suite and check the date consistency (schedule says
+  classes begin Thursday, August 27, 2026 — let's verify that's actually a
+  Thursday) and look for any other issues like meta descriptions, sitemap,
+  robots.txt, accessibility attributes.
+
+  Read 4 files (ctrl+o to expand)
+
+⏺ Solid test suite for structural integrity. Now let me run the tests, check a
+  date sanity fact, and check for accessibility/SEO gaps across all pages at
+  once.
+
+  Ran 2 shell commands (ctrl+o to expand)
+
+⏺ Dates check out (with one exception to flag: Oct Break is Thu–Fri, Oct 8–9, so
+  Week 7 should have its Tuesday session, not Thursday — but schedule.html said
+  "Week 7 has a single session (Tuesday)" which matches, and week-08 shows Oct
+  13/15 — need to check week-07's actual date). Let me check week-07 and a few
+  more content-related items: meta descriptions, lang consistency, canonical/OG
+  tags, sitemap/robots, and accessibility on nav ARIA.
+
+  Read 1 file, listed 1 directory (ctrl+o to expand)
+
+⏺ All 22 pages confirmed: no meta descriptions, no robots.txt/sitemap.xml, no
+  OG/Twitter card tags, no favicon, no aria-current on active nav links. Let me
+  check the .active class usage and week-07 date sanity (Oct 6, 2026).
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Good, that's a reasonable design choice (weeks are "under" Schedule). Now let
+  me check the netlify.toml redirect rule more carefully, git history for
+  context, and check the CSS for further a11y/contrast concerns and check
+  .gitignore and notes/.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ I have enough to write a thorough report. This is a Python .gitignore template
+  applied to a static HTML site (boilerplate mismatch, though harmless). Now
+  let me check the netlify.toml redirect issue more carefully — it's a critical
+  bug — and check heading hierarchy/skip-nav for accessibility.
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+⏺ I have a complete picture now. Let me verify the #767676 contrast ratio
+  against white background quickly and confirm the netlify.toml redirect is
+  indeed a footgun, then write the report.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Both pass WCAG AA for normal text (4.5:1) — that's actually fine, good to
+  confirm rather than assume. Now I have everything needed. Let me write the
+  report.
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Write(docs/report_web-revision_v1_20260901.md)
+  ⎿  Wrote 161 lines to docs/report_web-revision_v1_20260901.md
+      1 # theailab-net Website Review
+      3 **Date:** 2026-09-01
+      4 **Scope:** Full repository — 22 static HTML pages, shared stylesh
+      5 **Reviewer:** Claude Code (automated codebase audit)
+      7 ## Summary
+      8 
+         shared stylesheet, a consistent page skeleton (header/nav/hero/f
+        ooter), and a genuinely useful pytest suite that already catches 
+        /25 tests pass as of this review). The content (syllabus, schedul
+        ed every schedule date against the actual 2026 calend
+     … +339 lines (ctrl+o to expand)
+
+⏺ I've completed the audit and saved the full report to
+  docs/report_web-revision_v1_20260901.md.
+
+  Key findings, by severity:
+
+  - Critical: netlify.toml has a catch-all [[redirects]] from = "/*" to = 
+    "/404.html" rule that will break routing once deployed — this should be
+    fixed before the first real Netlify deploy.
+  - High: no meta descriptions, no Open Graph/Twitter card tags, no favicon, no
+    robots.txt/sitemap.xml across all 22 pages; inconsistent relative-link
+    conventions between core/ pages; no aria-current on the active nav item.
+  - Medium: no skip-to-content link or #main-content anchor (all 22 pages repeat
+    a 6-link nav before content), table headers missing scope attributes, a
+    full Python-project .gitignore template on an HTML/CSS site, and an
+    untracked notes/ file unrelated to the site.
+  - Low/polish: no last-updated indicator despite the syllabus promising one
+    (and an already-defined but unused .page-meta CSS class for exactly that),
+    no print stylesheet, footer has no repo/license link, no HTML validator step
+    in CI, no CSP header.
+
+  I also verified what's already solid rather than just flagging gaps: the
+  pytest suite (25/25 passing) genuinely catches broken links, nav drift, and
+  orphaned pages; every date across the schedule and all 15 week pages checks
+  out against the real 2026 calendar; and the two main text colors both clear
+  WCAG AA contrast (4.54:1 and 5.21:1).
+
+✻ Brewed for 2m 35s · done 3:53 PM
