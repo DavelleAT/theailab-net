@@ -40,6 +40,37 @@
     "Final Project Poster Presentations"
   ];
 
+  // Search terms for the "Today in AI" card, one per week, so the headlines
+  // beside a week page relate to what that week covers. Fed to the Hacker News
+  // Algolia search as a relevance query, not as a strict filter, so they should
+  // read like something a person would search rather than a keyword list.
+  // Editorial: unlike the titles and dates above, nothing in the site verifies
+  // these, so tune them freely.
+  //
+  // Keep them to two or three words. A headline has to contain one of these
+  // words to be shown, and longer queries fail that badly: "LLM observability
+  // cost tokens" and "AI software development lifecycle" each returned nothing
+  // usable over a month of stories, where "LLM cost" and "AI software
+  // engineering" return plenty. The trailing number is roughly what each
+  // returned when last measured, as a guide to whether a rewrite helped.
+  var WEEK_TOPICS = [
+    "AI coding agents",         // 84
+    "AI terminal",              // 27
+    "Claude Code CLI",          // 26
+    "prompt engineering",       //  4
+    "MCP servers",              // 83
+    "AI agent security",        // 21
+    "multi-agent orchestration",//  5
+    "Codex CLI",                // 25
+    "agent evaluation",         // 23
+    "spec-driven development",  //  2
+    "AI code review",           // 20
+    "LLM cost",                 // 17
+    "AI software engineering",  //  6
+    "AI agents research",       // 17
+    "AI research"               // 35
+  ];
+
   var BREAKS = [
     { start: "2026-10-08", end: "2026-10-09", name: "October Break" },
     { start: "2026-11-21", end: "2026-11-29", name: "Thanksgiving Recess" }
@@ -67,12 +98,17 @@
     return WEEK_TITLES[wk - 1] || "";
   }
 
+  function weekTopic(wk) {
+    return WEEK_TOPICS[wk - 1] || "";
+  }
+
   window.CourseCalendar = {
     WEEK_START_DATES: WEEK_START_DATES,
     ETHICS_WEEKS: ETHICS_WEEKS,
     currentWeekNumber: currentWeekNumber,
     activeBreak: activeBreak,
     weekTitle: weekTitle,
+    weekTopic: weekTopic,
     today: function () { return new Date().toISOString().slice(0, 10); }
   };
 })();

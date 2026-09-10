@@ -933,6 +933,17 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--accent);
   margin-bottom: 0.9rem;
 }
+/* Names the week subject the headlines were selected for, so the card explains
+   why these stories and not others. Only rendered when the topic query actually
+   returned something. */
+.news-topic {
+  font-family: var(--fmono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  color: var(--text-lt);
+  margin: -0.5rem 0 1rem;
+}
 .news-headline {
   font-family: var(--fdisplay);
   font-size: 1.3rem;
