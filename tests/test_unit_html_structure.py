@@ -295,8 +295,12 @@ class TestWidgetRail:
         assert rail.select_one("#today-in-ai-card") is not None, ".home-rail missing #today-in-ai-card"
         assert rail.select_one("#here-card") is not None, ".home-rail missing #here-card"
 
+    # schedule.html deliberately omits #here-card: it lists every week with its
+    # dates, so a card naming the current week only repeats the timeline.
+    NO_HERE_CARD = {"schedule.html"}
+
     def test_interior_pages_have_page_rail(self, site_root):
-        """Every core/ and weeks/ page must have a .page-rail with hidden today-in-ai and here cards."""
+        """Every core/ and weeks/ page must have a .page-rail with the expected hidden cards."""
         failures = []
         interior = sorted((site_root / "core").glob("*.html")) + sorted((site_root / "weeks").glob("*.html"))
         import bs4
@@ -306,12 +310,17 @@ class TestWidgetRail:
             if not rail:
                 failures.append(f"{_rel(path)}: missing .page-rail")
                 continue
-            for card_id in ("today-in-ai-card", "here-card"):
+            expected = ["today-in-ai-card"]
+            if path.name not in self.NO_HERE_CARD:
+                expected.append("here-card")
+            for card_id in expected:
                 card = rail.select_one("#" + card_id)
                 if not card:
                     failures.append(f"{_rel(path)}: .page-rail missing #{card_id}")
                 elif not card.has_attr("hidden"):
                     failures.append(f"{_rel(path)}: #{card_id} not hidden by default")
+            if path.name in self.NO_HERE_CARD and rail.select_one("#here-card"):
+                failures.append(f"{_rel(path)}: #here-card should not be on this page")
         assert not failures, f"Interior page rail issues: {failures[:15]}"
 
     def test_bg_flourish_is_absent_sitewide(self, parsed_pages):

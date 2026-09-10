@@ -27,6 +27,8 @@
     ".news-card",
     ".here-card",
     ".section",
+    ".sched-phase-title",
+    ".sched-row",
     ".page-content > h2",
     ".page-content > h3",
     ".page-content > p",
