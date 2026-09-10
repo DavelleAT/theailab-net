@@ -1263,8 +1263,40 @@ h1, h2, h3, h4, h5, h6 {
    their real chronological positions. */
 .sched-intro {
   color: var(--text-lt);
-  margin: 0 0 3rem;
+  margin: 0 0 1.25rem;
   max-width: 34rem;
+}
+
+.sched-subscribe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.85rem;
+  margin: 0 0 3rem;
+}
+.sched-subscribe a {
+  font-family: var(--fmono);
+  font-size: 10.5px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 0.5rem 0.9rem;
+  transition: border-color var(--dur-fast) var(--ease),
+              background-color var(--dur-fast) var(--ease);
+}
+.sched-subscribe a:hover {
+  border-color: var(--accent);
+  background: var(--accent-wash);
+}
+.sched-subscribe-note {
+  font-family: var(--fmono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  line-height: 1.5;
+  color: var(--text-lt);
 }
 
 .sched-phase {

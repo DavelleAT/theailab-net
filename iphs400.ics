@@ -1,0 +1,364 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//theailab.net//IPHS 400//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+X-WR-CALNAME:IPHS 400: Frontiers in AI
+X-WR-TIMEZONE:America/New_York
+BEGIN:VTIMEZONE
+TZID:America/New_York
+BEGIN:DAYLIGHT
+TZOFFSETFROM:-0500
+TZOFFSETTO:-0400
+TZNAME:EDT
+DTSTART:19700308T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:-0400
+TZOFFSETTO:-0500
+TZNAME:EST
+DTSTART:19701101T020000
+RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU
+END:STANDARD
+END:VTIMEZONE
+BEGIN:VEVENT
+UID:week-01-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260827T144000
+DTEND;TZID=America/New_York:20260827T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-01.html
+SUMMARY:IPHS 400: Week 1 — Course Introduction
+END:VEVENT
+BEGIN:VEVENT
+UID:week-02-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260901T144000
+DTEND;TZID=America/New_York:20260901T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-02.html
+SUMMARY:IPHS 400: Week 2 — Shell Fundamentals and Dotfiles
+END:VEVENT
+BEGIN:VEVENT
+UID:week-02-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260903T144000
+DTEND;TZID=America/New_York:20260903T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-02.html
+SUMMARY:IPHS 400: Week 2 — Shell Fundamentals and Dotfiles
+END:VEVENT
+BEGIN:VEVENT
+UID:due-20260904-mini-project-1-due@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20260904
+DTEND;VALUE=DATE:20260905
+TRANSP:TRANSPARENT
+SUMMARY:IPHS 400: Mini-Project 1 due
+END:VEVENT
+BEGIN:VEVENT
+UID:week-03-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260908T144000
+DTEND;TZID=America/New_York:20260908T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-03.html
+SUMMARY:IPHS 400: Week 3 — Dive into Claude Code CLI
+END:VEVENT
+BEGIN:VEVENT
+UID:week-03-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260910T144000
+DTEND;TZID=America/New_York:20260910T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-03.html
+SUMMARY:IPHS 400: Week 3 — Dive into Claude Code CLI
+END:VEVENT
+BEGIN:VEVENT
+UID:week-04-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260915T144000
+DTEND;TZID=America/New_York:20260915T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-04.html
+SUMMARY:IPHS 400: Week 4 — CLAUDE.md and Slash Commands
+END:VEVENT
+BEGIN:VEVENT
+UID:week-04-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260917T144000
+DTEND;TZID=America/New_York:20260917T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-04.html
+SUMMARY:IPHS 400: Week 4 — CLAUDE.md and Slash Commands
+END:VEVENT
+BEGIN:VEVENT
+UID:week-05-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260922T144000
+DTEND;TZID=America/New_York:20260922T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-05.html
+SUMMARY:IPHS 400: Week 5 — Agent Skills\, Subagents\, and MCP
+END:VEVENT
+BEGIN:VEVENT
+UID:week-05-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260924T144000
+DTEND;TZID=America/New_York:20260924T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-05.html
+SUMMARY:IPHS 400: Week 5 — Agent Skills\, Subagents\, and MCP
+END:VEVENT
+BEGIN:VEVENT
+UID:due-20260925-mini-project-2-due@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20260925
+DTEND;VALUE=DATE:20260926
+TRANSP:TRANSPARENT
+SUMMARY:IPHS 400: Mini-Project 2 due
+END:VEVENT
+BEGIN:VEVENT
+UID:week-06-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20260929T144000
+DTEND;TZID=America/New_York:20260929T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-06.html
+SUMMARY:IPHS 400: Week 6 — Hooks Architecture and Guardrails
+END:VEVENT
+BEGIN:VEVENT
+UID:week-06-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261001T144000
+DTEND;TZID=America/New_York:20261001T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-06.html
+SUMMARY:IPHS 400: Week 6 — Hooks Architecture and Guardrails
+END:VEVENT
+BEGIN:VEVENT
+UID:week-07-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261006T144000
+DTEND;TZID=America/New_York:20261006T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-07.html
+SUMMARY:IPHS 400: Week 7 — Multi-Agent Orchestration Fundamentals
+END:VEVENT
+BEGIN:VEVENT
+UID:break-20261008-october-break@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261008
+DTEND;VALUE=DATE:20261010
+TRANSP:TRANSPARENT
+SUMMARY:October Break
+END:VEVENT
+BEGIN:VEVENT
+UID:week-08-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261013T144000
+DTEND;TZID=America/New_York:20261013T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-08.html
+SUMMARY:IPHS 400: Week 8 — Comparative Agent Harnesses
+END:VEVENT
+BEGIN:VEVENT
+UID:week-08-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261015T144000
+DTEND;TZID=America/New_York:20261015T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-08.html
+SUMMARY:IPHS 400: Week 8 — Comparative Agent Harnesses
+END:VEVENT
+BEGIN:VEVENT
+UID:week-09-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261020T144000
+DTEND;TZID=America/New_York:20261020T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-09.html
+SUMMARY:IPHS 400: Week 9 — Harness Integration and Debugging
+END:VEVENT
+BEGIN:VEVENT
+UID:week-09-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261022T144000
+DTEND;TZID=America/New_York:20261022T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-09.html
+SUMMARY:IPHS 400: Week 9 — Harness Integration and Debugging
+END:VEVENT
+BEGIN:VEVENT
+UID:due-20261023-mini-project-3-due@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261023
+DTEND;VALUE=DATE:20261024
+TRANSP:TRANSPARENT
+SUMMARY:IPHS 400: Mini-Project 3 due
+END:VEVENT
+BEGIN:VEVENT
+UID:week-10-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261027T144000
+DTEND;TZID=America/New_York:20261027T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-10.html
+SUMMARY:IPHS 400: Week 10 — MP3 Demos and the Spec-Driven Development Lan
+ dscape
+END:VEVENT
+BEGIN:VEVENT
+UID:week-10-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261029T144000
+DTEND;TZID=America/New_York:20261029T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-10.html
+SUMMARY:IPHS 400: Week 10 — MP3 Demos and the Spec-Driven Development Lan
+ dscape
+END:VEVENT
+BEGIN:VEVENT
+UID:week-11-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261103T144000
+DTEND;TZID=America/New_York:20261103T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-11.html
+SUMMARY:IPHS 400: Week 11 — GitHub as the AI-SDLC Hub
+END:VEVENT
+BEGIN:VEVENT
+UID:week-11-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261105T144000
+DTEND;TZID=America/New_York:20261105T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-11.html
+SUMMARY:IPHS 400: Week 11 — GitHub as the AI-SDLC Hub
+END:VEVENT
+BEGIN:VEVENT
+UID:week-12-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261110T144000
+DTEND;TZID=America/New_York:20261110T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-12.html
+SUMMARY:IPHS 400: Week 12 — Observability\, Cost\, and Security
+END:VEVENT
+BEGIN:VEVENT
+UID:week-12-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261112T144000
+DTEND;TZID=America/New_York:20261112T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-12.html
+SUMMARY:IPHS 400: Week 12 — Observability\, Cost\, and Security
+END:VEVENT
+BEGIN:VEVENT
+UID:due-20261113-final-project-proposal-due-written-exam-@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261113
+DTEND;VALUE=DATE:20261114
+TRANSP:TRANSPARENT
+SUMMARY:IPHS 400: Final Project proposal due · written-exam opt-in deadlin
+ e
+END:VEVENT
+BEGIN:VEVENT
+UID:week-13-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261117T144000
+DTEND;TZID=America/New_York:20261117T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-13.html
+SUMMARY:IPHS 400: Week 13 — Full-Cycle Capstone Work Session and MP4 Pres
+ entations
+END:VEVENT
+BEGIN:VEVENT
+UID:week-13-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261119T144000
+DTEND;TZID=America/New_York:20261119T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-13.html
+SUMMARY:IPHS 400: Week 13 — Full-Cycle Capstone Work Session and MP4 Pres
+ entations
+END:VEVENT
+BEGIN:VEVENT
+UID:due-20261120-mini-project-4-due@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261120
+DTEND;VALUE=DATE:20261121
+TRANSP:TRANSPARENT
+SUMMARY:IPHS 400: Mini-Project 4 due
+END:VEVENT
+BEGIN:VEVENT
+UID:break-20261121-thanksgiving-recess@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261121
+DTEND;VALUE=DATE:20261130
+TRANSP:TRANSPARENT
+SUMMARY:Thanksgiving Recess
+END:VEVENT
+BEGIN:VEVENT
+UID:week-14-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261201T144000
+DTEND;TZID=America/New_York:20261201T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-14.html
+SUMMARY:IPHS 400: Week 14 — Final Project Work Session and Poster Develop
+ ment
+END:VEVENT
+BEGIN:VEVENT
+UID:week-14-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261203T144000
+DTEND;TZID=America/New_York:20261203T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-14.html
+SUMMARY:IPHS 400: Week 14 — Final Project Work Session and Poster Develop
+ ment
+END:VEVENT
+BEGIN:VEVENT
+UID:week-15-session-1@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261208T144000
+DTEND;TZID=America/New_York:20261208T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-15.html
+SUMMARY:IPHS 400: Week 15 — Final Project Poster Presentations
+END:VEVENT
+BEGIN:VEVENT
+UID:week-15-session-2@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;TZID=America/New_York:20261210T144000
+DTEND;TZID=America/New_York:20261210T160000
+LOCATION:Timberlake #5 (Evans Conference Room)
+URL:https://theailab.net/weeks/week-15.html
+SUMMARY:IPHS 400: Week 15 — Final Project Poster Presentations
+END:VEVENT
+BEGIN:VEVENT
+UID:break-20261211-last-day-of-classes@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261211
+DTEND;VALUE=DATE:20261212
+TRANSP:TRANSPARENT
+SUMMARY:Last day of classes
+END:VEVENT
+BEGIN:VEVENT
+UID:break-20261214-final-examination-period@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261214
+DTEND;VALUE=DATE:20261219
+TRANSP:TRANSPARENT
+SUMMARY:Final examination period
+END:VEVENT
+BEGIN:VEVENT
+UID:break-20261218-semester-ends-4-30-pm@theailab.net
+DTSTAMP:20260901T000000Z
+DTSTART;VALUE=DATE:20261218
+DTEND;VALUE=DATE:20261219
+TRANSP:TRANSPARENT
+SUMMARY:Semester ends\, 4:30 PM
+END:VEVENT
+END:VCALENDAR
